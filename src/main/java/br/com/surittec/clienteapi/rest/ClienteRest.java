@@ -2,7 +2,6 @@ package br.com.surittec.clienteapi.rest;
 
 import br.com.surittec.clienteapi.model.Cliente;
 import br.com.surittec.clienteapi.model.Email;
-import br.com.surittec.clienteapi.model.Endereco;
 import br.com.surittec.clienteapi.model.Telefone;
 import br.com.surittec.clienteapi.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("${origem-permitida}")
@@ -21,6 +21,12 @@ public class ClienteRest {
     @GetMapping(value = "/clientes")
     public List<Cliente> listar(){
         return clienteRepository.findAll();
+    }
+
+    @GetMapping(value = "/clientes/{id}")
+    public Cliente porId(@PathVariable("id") Long id){
+        Optional<Cliente> optCliente = clienteRepository.findById(id);
+        return optCliente.orElse(null);
     }
 
     @PostMapping(value = "/clientes")

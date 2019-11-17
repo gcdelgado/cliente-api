@@ -25,4 +25,12 @@ public class Telefone {
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
+    public void setNumero(String numero) {
+        // Remove mascara
+        this.numero = numero == null ? null : numero
+                .replace("(", "")
+                .replace(")", "")
+                .replace("-", "")
+                .replace(" ", "");
+    }
 }
