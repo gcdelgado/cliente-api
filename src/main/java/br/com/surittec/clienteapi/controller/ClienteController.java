@@ -1,4 +1,4 @@
-package br.com.surittec.clienteapi.rest;
+package br.com.surittec.clienteapi.controller;
 
 import br.com.surittec.clienteapi.model.Cliente;
 import br.com.surittec.clienteapi.model.Email;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("${origem-permitida}")
-public class ClienteRest {
+public class ClienteController {
 
     @Autowired
     private ClienteRepository clienteRepository;

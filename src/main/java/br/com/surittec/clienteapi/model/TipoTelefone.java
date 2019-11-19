@@ -2,7 +2,9 @@ package br.com.surittec.clienteapi.model;
 
 import lombok.Getter;
 
-public enum TipoTelefone {
+import java.io.Serializable;
+
+public enum TipoTelefone implements Serializable {
     RES ("Residencial"),
     COM ("Comercial"),
     CEL ("Celular");

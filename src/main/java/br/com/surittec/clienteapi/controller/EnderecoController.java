@@ -1,4 +1,4 @@
-package br.com.surittec.clienteapi.rest;
+package br.com.surittec.clienteapi.controller;
 
 import br.com.surittec.clienteapi.model.Endereco;
 import br.com.surittec.clienteapi.repository.EnderecoRepository;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin("${origem-permitida}")
-public class EnderecoRest {
+public class EnderecoController {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
