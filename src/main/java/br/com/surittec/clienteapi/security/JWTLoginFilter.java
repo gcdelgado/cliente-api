@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
@@ -26,8 +27,14 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
 
+        InputStream is = request.getInputStream();
+
+//        Properties prop = new Properties();
+//        prop.load(is);
+//        prop.list(System.out);
+
         AccountCredentials credentials = new ObjectMapper()
-                .readValue(request.getInputStream(), AccountCredentials.class);
+                .readValue(is, AccountCredentials.class);
 
         return getAuthenticationManager().authenticate(
                 new UsernamePasswordAuthenticationToken(

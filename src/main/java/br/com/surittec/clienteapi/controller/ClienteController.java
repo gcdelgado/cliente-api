@@ -1,8 +1,7 @@
 package br.com.surittec.clienteapi.controller;
 
-import br.com.surittec.clienteapi.model.Cliente;
-import br.com.surittec.clienteapi.model.Email;
-import br.com.surittec.clienteapi.model.Telefone;
+import br.com.surittec.clienteapi.model.*;
+import br.com.surittec.clienteapi.repository.AuditoriaRepository;
 import br.com.surittec.clienteapi.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +17,16 @@ public class ClienteController {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private AuditoriaRepository auditoriaRepository;
+
     @GetMapping(value = "/clientes")
-    public List<Cliente> listar(){
+    public List<Cliente> listar() {
         return clienteRepository.findAll();
     }
 
     @GetMapping(value = "/clientes/{id}")
-    public Cliente porId(@PathVariable("id") Long id){
+    public Cliente porId(@PathVariable("id") Long id) {
         Optional<Cliente> optCliente = clienteRepository.findById(id);
         return optCliente.orElse(null);
     }
@@ -45,7 +47,25 @@ public class ClienteController {
             }
         }
 
-        return clienteRepository.save(cliente);
+        TipoOperacao tipoOperacao= cliente.getId() == null ? TipoOperacao.INCLUSAO : TipoOperacao.ALTERACAO;
+
+        auditoriaRepository.save(new Auditoria(tipoOperacao, cliente.getId(), cliente.getNome(), "admin"));
+
+        clienteRepository.save(cliente);
+
+        return cliente;
+    }
+
+    @DeleteMapping(value = "/clientes/{id}")
+    public void excluir(@PathVariable("id") Long id){
+        Cliente cliente = porId(id);
+
+        clienteRepository.deleteById(id);
+
+        Auditoria auditoria = new Auditoria(TipoOperacao.EXCLUSAO, id, cliente.getNome(), "admin");
+
+        auditoriaRepository.save(auditoria);
+
     }
 
 }

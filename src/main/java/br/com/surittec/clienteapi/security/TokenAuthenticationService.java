@@ -19,13 +19,18 @@ public class TokenAuthenticationService {
     static final String HEADER_STRING = "Authorization";
 
     static void addAuthentication(HttpServletResponse response, String username) {
-        String JWT = Jwts.builder()
-                .setSubject(username)
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET)
-                .compact();
+        String JWT = gerarToken(username);
 
         response.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
+    }
+
+    public static String gerarToken(String username) {
+        return TOKEN_PREFIX + " " +
+                Jwts.builder()
+                        .setSubject(username)
+                        .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                        .signWith(SignatureAlgorithm.HS512, SECRET)
+                        .compact();
     }
 
     static Authentication getAuthentication(HttpServletRequest request) {

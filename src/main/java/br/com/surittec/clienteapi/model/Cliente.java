@@ -1,6 +1,7 @@
 package br.com.surittec.clienteapi.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Cliente implements Serializable {
 
     @Id
@@ -29,6 +31,10 @@ public class Cliente implements Serializable {
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Telefone> telefones;
+
+    public Cliente(Long id){
+        this.id = id;
+    }
 
     public void setCpf(String cpf) {
         // Remove mascara
