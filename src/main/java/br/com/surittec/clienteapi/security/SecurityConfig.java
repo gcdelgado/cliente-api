@@ -2,6 +2,7 @@ package br.com.surittec.clienteapi.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,21 +24,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("admin").password("{noop}123456").roles("ADMIN")
-                .and().withUser("comum").password("{noop}123456").roles("USER");
+                .and().withUser("comum").password("{noop}123456").roles("COMUM");
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers("/login").permitAll()
+//                .antMatchers(HttpMethod.POST, "/clientes").hasAnyRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE, "/clientes").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
-                .and()
-
-                // filtra requisicoes de login
-//                .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
-//                        UsernamePasswordAuthenticationFilter.class)
-
-                // filtra outras requisicoes para verificar a presenca do JWT no header
+                .and()                // filtra requisicoes para verificar a presenca do JWT no header
                 .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity.headers().frameOptions().disable();

@@ -2,10 +2,7 @@ package br.com.surittec.clienteapi.controller;
 
 import br.com.surittec.clienteapi.security.AccountCredentials;
 import br.com.surittec.clienteapi.security.TokenAuthenticationService;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.Collections;
 
 @RestController

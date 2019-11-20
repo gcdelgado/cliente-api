@@ -32,7 +32,7 @@ public class ClienteController {
     }
 
     @PostMapping(value = "/clientes")
-    public Cliente adicionar(@RequestBody @Valid Cliente cliente){
+    public Cliente salvar(@RequestBody @Valid Cliente cliente){
         if (cliente.getEndereco() != null){
             cliente.getEndereco().setCliente(cliente);
         }
