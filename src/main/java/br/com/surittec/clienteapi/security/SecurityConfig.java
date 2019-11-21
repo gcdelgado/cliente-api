@@ -30,13 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login", "/h2-console/**").permitAll()
 //                .antMatchers(HttpMethod.POST, "/clientes").hasAnyRole("ADMIN")
 //                .antMatchers(HttpMethod.DELETE, "/clientes").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()                // filtra requisicoes para verificar a presenca do JWT no header
                 .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
+        httpSecurity.csrf().disable();
         httpSecurity.headers().frameOptions().disable();
     }
 
